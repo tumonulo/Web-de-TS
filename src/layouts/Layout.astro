@@ -18,12 +18,12 @@ const { title } = Astro.props
 		<ClientRouter />
 		<title>{title}</title>
 	</head>
-	<body class="min-h-screen grid grid-rows-[auto_1fr_auto] text-white min-h-0"">
-		<Header />
-		<main class="pt-20 bg-dark min-h-0"">
-			<slot />
-		</main>
-		<Footer />
+	<body class="min-h-screen flex flex-col text-white">
+	  <Header />
+	  <main class="flex-1 pt-20 bg-dark">
+	    <slot />
+	  </main>
+	  <Footer />
 	</body>
 </html>
 
