@@ -5,7 +5,9 @@ import type { Route } from '@/types/routes.ts'
 ---
 
 <header class="fixed top-0 left-0 w-full h-20 p-4 bg-darker grid place-items-center shadow-md grid-cols-3 z-50">
-    <img src={LogoNoBG.src} alt="Logo TS" class="h-12 w-auto" />
+    <a href="/">
+        <img src={LogoNoBG.src} alt="Logo TS" class="h-12 w-auto" />
+    </a>
 
     <nav>
         <ul class="flex gap-6 justify-center">
@@ -37,7 +39,8 @@ import type { Route } from '@/types/routes.ts'
                     xmlns="http://www.w3.org/2000/svg" 
                     aria-hidden="true"
                 >
-                    <line x1="8" y1="0" x2="4" y2="8" stroke="currentColor" stroke-width="1.5" />
+                    <line x1="2.5" y1="1" x2="5.5" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    <line x1="2.5" y1="7" x2="5.5" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                 </svg>
 
                 <span>Aplicaciones</span>
@@ -57,7 +60,12 @@ import type { Route } from '@/types/routes.ts'
             >
                 {(routes.applications as Route[]).map((application: Route, index: number) => (
                 <li class="px-2 py-1">
-                    <a href={application.path} class="hover:underline block">{application.name}</a>
+                    <a
+                    href={application.path}
+                    class="relative inline-block border-b-2 border-transparent hover:border-light-blue transition-all duration-300"
+                    >
+                    {application.name}
+                    </a>
                     {index < (routes.applications as Route[]).length - 1 && (
                     <hr class="border-t border-gray my-1" />
                     )}

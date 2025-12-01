@@ -5,10 +5,10 @@ export const routes: Routes = {
   discord: { name: 'Discord', path: 'https://discord.gg/8nu3ZdDkp7' },
 
   applications: [
-    { name: 'Staff', path: '/aplications/staff' },
-    { name: 'Desarrollador', path: '/aplications/developer' },
-    { name: 'Diseñador', path: '/aplications/Designer' },
-    { name: 'Editor', path: '/aplications/editor' },
-    { name: 'Programa de Creadores', path: '/aplications/creators-program' },
+    { name: 'Staff', path: '/applications/staff' },
+    { name: 'Desarrollador', path: '/applications/developer' },
+    { name: 'Diseñador', path: '/applications/Designer' },
+    { name: 'Editor', path: '/applications/editor' },
+    { name: 'Programa de Creadores', path: '/applications/creators-program' },
   ],
 }

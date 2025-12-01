@@ -1,0 +1,29 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { routes } from '@/consts/routes.ts'
+import type { Route } from '@/types/routes.ts'
+import applications from '@/consts/applications.ts'
+import type { Application } from '@/types/applications'
+
+const { application: slug } = Astro.params
+
+export function getStaticPaths() {
+  const apps = (routes.applications as Route[]).filter(
+    (app) => app.path !== '/applications/creators-program'
+  )
+
+  return apps.map(({ path }: Route) => ({
+    params: { application: path.replace('/applications/', '') }
+  }))
+}
+
+const application = applications.find(
+  a => a.id.toLowerCase() === slug.toLowerCase()
+) as Application
+---
+<Layout title={`Aplicaciones para ${application.name}`}>
+    <section>
+        <h1>{`Postulaciones a ${application?.name}`}</h1>
+        <p>{application.intro}</p>
+    </section>
+</Layout>
