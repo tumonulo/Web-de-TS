@@ -42,4 +42,37 @@ Por favor responde con sinceridad y completa todas las preguntas obligatorias.
   ]
 }
 
-export default [staffApplication]
+export const developerApplication: Application = {
+  id: "developer",
+  name: "Desarrollador",
+  intro: `
+¡Bienvenido a la postulación para Developer!
+Buscamos personas con experiencia en programación, automatización o bots.
+Cuéntanos qué puedes aportar al equipo.
+`
+}
+
+export const designerApplication: Application = {
+  id: "designer",
+  name: "Diseñador",
+  intro: `
+Gracias por tu interés en unirte como Designer.
+Queremos conocer tu estilo, tu experiencia y qué te inspira a colaborar.
+`
+}
+
+export const editorApplication: Application = {
+  id: "editor",
+  name: "Editor",
+  intro: `
+¡Hola! Nos alegra que quieras aplicar como Editor.
+Cuéntanos sobre tu experiencia editando y tu motivación.
+`
+}
+
+export default [
+  staffApplication,
+  developerApplication,
+  designerApplication,
+  editorApplication
+]
