@@ -1,0 +1,81 @@
+---
+import LogoNoBG from '@/assets/logoNoBG.webp'
+import { routes } from '@/consts/routes.ts'
+import type { Route } from '@/types/routes.ts'
+---
+
+<header class="fixed top-0 left-0 w-full h-20 p-4 bg-darker grid place-items-center shadow-md grid-cols-3 z-50">
+    <img src={LogoNoBG.src} alt="Logo TS" class="h-12 w-auto" />
+
+    <nav>
+        <ul class="flex gap-6 justify-center">
+            {/* LIGA con subrayado igual que Aplicaciones */}
+            <li>
+                <a
+                    href={(routes.league as Route).path}
+                    class="relative flex items-center gap-2 px-1 py-1 group"
+                >
+                    <span class="relative">
+                        {(routes.league as Route).name}
+
+                        {/* Subrayado animado */}
+                        <span class="absolute left-0 -bottom-0.5 h-0.5 bg-light-blue origin-left transform scale-x-0 transition-transform duration-200 group-hover:scale-x-100 w-full"></span>
+                    </span>
+                </a>
+            </li>
+
+            {/* MENÚ APLICACIONES */}
+            <li class="relative group pb-1">
+            <button type="button" class="relative flex items-center gap-2 px-1 py-1">
+                {/* Contenedor del SVG + texto para que el subrayado abarque todo */}
+                <span class="relative flex items-center gap-2 underline-offset-4 decoration-light-blue">
+                
+                {/* Flecha con ancho fijo para no mover el layout */}
+                <svg 
+                    class="w-4 h-4 shrink-0 transform transition-transform duration-200 group-hover:rotate-90" 
+                    viewBox="0 0 8 8" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    aria-hidden="true"
+                >
+                    <line x1="8" y1="0" x2="4" y2="8" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+
+                <span>Aplicaciones</span>
+
+                {/* Subrayado que abarca todo (SVG + texto) */}
+                <span class="absolute left-0 -bottom-0.5 h-0.5 bg-light-blue origin-left transform scale-x-0 transition-transform duration-200 group-hover:scale-x-100 w-full"></span>
+                </span>
+            </button>
+
+            {/* Dropdown */}
+            <ul
+                class="absolute top-full left-0 bg-darker border border-gray shadow-lg p-2 rounded-md 
+                    inline-flex flex-col gap-1 z-50 whitespace-nowrap
+                    opacity-0 scale-y-0 pointer-events-none 
+                    transition-all duration-200 ease-in-out origin-top
+                    group-hover:opacity-100 group-hover:scale-y-100 group-hover:pointer-events-auto"
+            >
+                {(routes.applications as Route[]).map((application: Route, index: number) => (
+                <li class="px-2 py-1">
+                    <a href={application.path} class="hover:underline block">{application.name}</a>
+                    {index < (routes.applications as Route[]).length - 1 && (
+                    <hr class="border-t border-gray my-1" />
+                    )}
+                </li>
+                ))}
+            </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div>
+        <a 
+            href={(routes.discord as Route).path}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-6 py-3 bg-blue text-white font-bold rounded-md hover:bg-light-blue hover:scale-105 transition-all duration-300 shadow-md"
+        >
+            {(routes.discord as Route).name}
+        </a>
+    </div>
+</header>
