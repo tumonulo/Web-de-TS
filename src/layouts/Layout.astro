@@ -2,6 +2,7 @@
 import '@/styles/global.css'
 import Header from '@/components/Header.astro'
 import Footer from '@/components/Footer.astro'
+import logoNoBG from '@/assets/img/logoNoBG.webp'
 
 import { ClientRouter } from "astro:transitions"
 
@@ -13,17 +14,34 @@ const { title } = Astro.props
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/webp" href="/favicon.webp" />
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23your-color%22/></svg>">
 		<meta name="generator" content={Astro.generator} />
 		<ClientRouter />
 		<title>{title}</title>
 	</head>
-	<body class="min-h-screen flex flex-col text-white">
-	  <Header />
-	  <main class="flex-1 pt-20 bg-dark">
-	    <slot />
-	  </main>
-	  <Footer />
+	<body class="min-h-screen flex flex-col text-white relative">
+	
+		<div id="loading" class="fixed inset-0 bg-dark flex items-center justify-center z-50 opacity-100 transition-opacity duration-700">
+			<img src={logoNoBG.src} alt="Logo de TS" class="w-16 h-16 object-contain animate-bounce" />
+		</div>
+
+		<Header />
+		<main id="main-content" class="flex-1 pt-20 bg-dark opacity-0 transition-opacity duration-700">
+			<slot />
+		</main>
+		<Footer />
+
+		<script>
+			window.addEventListener('DOMContentLoaded', () => {
+			const loader = document.getElementById('loading') as HTMLDivElement
+			const main = document.getElementById('main-content') as HTMLMainElement
+
+			loader.style.opacity = '0';
+			main.style.opacity = '1';
+
+			setTimeout(() => loader.remove(), 700)
+			})
+		</script>
 	</body>
 </html>
 

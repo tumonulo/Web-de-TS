@@ -21,18 +21,25 @@ const application = applications.find(
 ---
 
 <Layout title={`Postulaciones a ${application.name} - TS Community`}>
-  <main class="max-w-5xl mx-auto py-12 px-6 text-white relative">
+  <div class="max-w-4xl mx-auto py-12 px-6 text-white relative">
 
-    <div class="rounded-xl overflow-hidden shadow-xl border border-white/10 mb-12">
-      <div class="p-8 bg-darker">
-        <h1 class="text-4xl font-semibold">{application.name}</h1>
-        <p class="opacity-70 mt-1">Formulario oficial de postulación</p>
+  <div class="rounded-xl overflow-hidden shadow-xl border border-white/10 mb-12">
+    <div class="p-8 bg-darker">
+      <div class="flex items-center gap-4">
+        <img 
+          src={application.icon.url} 
+          alt={application.icon.alt} 
+          class="w-16 h-16 object-contain rounded-lg"
+        />
+        <div>
+          <h1 class="text-4xl font-semibold">{`Postulaciones a ${application.name}`}</h1>
+          <p class="opacity-70 mt-1">{application.description}</p>
+        </div>
       </div>
-
-      {application.banner && (
-        <img src={application.banner.url} alt={application.banner.alt} class="w-full h-48 object-cover" />
-      )}
     </div>
+
+    <img src={application.banner.url} alt={application.banner.alt} class="w-full h-48 object-cover" />
+  </div>
 
     <form id="appForm" class="space-y-12">
       {application.sections.map((section, sIndex) => (
@@ -45,48 +52,54 @@ const application = applications.find(
           </h2>
 
           <div class="space-y-6">
-            {section.questions.map((q) => (
-              <div class="flex flex-col gap-2 bg-dark border border-white/10 p-4 rounded-lg">
-                <label class="font-large flex items-center gap-1">
-                  {q.label}
-                  {q.required && <span class="text-red-500">*</span>}
-                </label>
+            {section.questions.map((q, qIndex) => {
+              const fieldId = `field-${sIndex}-${qIndex}`
+              return (
+                <div class="flex flex-col gap-2 bg-dark border border-white/10 p-4 rounded-lg">
+                  <label for={fieldId} class="text-large flex items-center gap-1">
+                    {q.label}
+                    {q.required && <span class="pl-1 text-red-500">*</span>}
+                  </label>
 
-                {q.aside && (
-                  <p class="text-md italic" set:html={q.aside}></p>
-                )}
+                  {q.aside && (
+                    <p class="text-md italic opacity-70 font-md" set:html={q.aside}></p>
+                  )}
 
-                {q.type === "short" && (
-                  <input
-                    name={q.label}
-                    type="text"
-                    class="bg-darker border border-white/10 px-3 py-2 rounded-lg"
-                    placeholder="Tu respuesta"
-                    data-required={q.required}
-                  />
-                )}
+                  {q.type === "short" && (
+                    <input
+                      id={fieldId}
+                      name={q.label}
+                      type="text"
+                      class="bg-darker border border-white/10 px-3 py-2 rounded-lg"
+                      placeholder="Tu respuesta"
+                      data-required={q.required}
+                    />
+                  )}
 
-                {q.type === "long" && (
-                  <textarea
-                    name={q.label}
-                    class="bg-darker border border-white/10 px-3 py-2 rounded-lg min-h-[120px]"
-                    placeholder="Tu respuesta"
-                    data-required={q.required}
-                  ></textarea>
-                )}
+                  {q.type === "long" && (
+                    <textarea
+                      id={fieldId}
+                      name={q.label}
+                      class="bg-darker border border-white/10 px-3 py-2 rounded-lg min-h-[120px] resize-none overflow-hidden"
+                      placeholder="Tu respuesta"
+                      data-required={q.required}
+                    ></textarea>
+                  )}
 
-                {q.type === "select" && (
-                  <select
-                    name={q.label}
-                    class="bg-darker border border-white/10 px-3 py-2 rounded-lg"
-                    data-required={q.required}
-                  >
-                    <option value="">Selecciona una opción</option>
-                    {q.options?.map((opt) => <option value={opt}>{opt}</option>)}
-                  </select>
-                )}
-              </div>
-            ))}
+                  {q.type === "select" && (
+                    <select
+                      id={fieldId}
+                      name={q.label}
+                      class="bg-darker border border-white/10 px-3 py-2 rounded-lg"
+                      data-required={q.required}
+                    >
+                      <option value="">Selecciona una opción</option>
+                      {q.options?.map((opt) => <option value={opt}>{opt}</option>)}
+                    </select>
+                  )}
+                </div>
+              )
+            })}
           </div>
           {sIndex === application.sections.length - 1 && (
             <div class="mt-8 flex justify-end">
@@ -137,6 +150,19 @@ const application = applications.find(
       const confirmBtn = document.getElementById("confirmSubmit") as HTMLButtonElement | null 
       const form = document.getElementById("appForm") as HTMLFormElement | null
 
+      // Auto-resize textareas
+      function autoResize(textarea: HTMLTextAreaElement) {
+        textarea.style.height = 'auto'
+        textarea.style.height = textarea.scrollHeight + 'px'
+      }
+
+      // Inicializar auto-resize para todos los textareas
+      const textareas = document.querySelectorAll('textarea')
+      textareas.forEach(textarea => {
+        autoResize(textarea as HTMLTextAreaElement)
+        textarea.addEventListener('input', () => autoResize(textarea as HTMLTextAreaElement))
+      })
+
       openBtn?.addEventListener("click", () => {
         const inputs = form?.querySelectorAll("[data-required]")
         let valid = true
@@ -164,5 +190,5 @@ const application = applications.find(
         console.log("Datos del formulario:", Object.fromEntries(formData))
       })
     </script>
-  </main>
+  </div>
 </Layout>

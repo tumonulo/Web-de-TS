@@ -1,0 +1,36 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { routes } from '@/consts/routes.ts'
+import applications from '@/consts/applications.ts'
+import type { Application } from '@/types/applications'
+---
+
+<Layout title="Postulaciones - TS Community">
+  <div class="max-w-6xl mx-auto py-12 px-6 text-white">
+    <h1 class="text-4xl font-bold mb-10 text-center">Postulaciones disponibles</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {applications.map((app: Application) => (
+        <a
+          href={`/applications/${app.id.toLowerCase()}`}
+          class="group relative rounded-xl overflow-hidden shadow-xl border border-white/10 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+        >
+          <img
+            src={app.banner.url}
+            alt={app.banner.alt}
+            class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+          />
+          <div class="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors duration-300 flex items-end p-4">
+            <div class="flex items-center gap-3">
+              <img src={app.icon.url} alt={app.icon.alt} class="w-12 h-12 rounded-lg object-contain" />
+              <div>
+                <h2 class="text-xl font-semibold">{app.name}</h2>
+                <p class="text-sm opacity-70 line-clamp-2">{app.description}</p>
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

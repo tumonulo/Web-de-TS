@@ -1,0 +1,29 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+const DISCORD_INVITE_URL = "https://discord.gg/8nu3ZdDkp7"
+---
+
+<Layout title="Redirigiendo a Discord...">
+  <div class="flex items-center justify-center h-screen">
+    <div class="text-center">
+      <h1 class="text-2xl font-bold text-white mb-6">¡Vamos a Discord!</h1>
+      <a 
+        href={DISCORD_INVITE_URL} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="flex items-center justify-center gap-3 px-6 py-3 bg-[#5865F2] text-white font-semibold rounded-full hover:bg-[#4752c4] hover:scale-105 transition-transform duration-300 shadow-lg mx-auto"
+      >
+        <img src="/src/assets/discord.png" alt="Discord" class="w-6 h-6"/>
+        Entrar a Discord
+      </a>
+      <p class="text-gray-400 mt-4">Si no se redirige automáticamente, haz clic en el botón.</p>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        window.location.href = "{DISCORD_INVITE_URL}"
+      }, 2000)
+    </script>
+  </div>
+</Layout>

@@ -2,7 +2,7 @@ import type { Routes } from '@/types/routes'
 
 export const routes: Routes = {
   league: { name: 'Liga', path: '/liga' },
-  discord: { name: 'Discord', path: 'https://discord.gg/8nu3ZdDkp7' },
+  discord: { name: 'Discord', path: '/discord' },
 
   applications: [
     { name: 'Staff', path: '/applications/staff' },

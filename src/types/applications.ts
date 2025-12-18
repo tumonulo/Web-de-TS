@@ -17,7 +17,13 @@ export interface Section {
 export interface Application {
   id: string
   name: string
+  description: string
+  color: string
   banner: {
+    url: string
+    alt: string
+  }
+  icon: {
     url: string
     alt: string
   }
