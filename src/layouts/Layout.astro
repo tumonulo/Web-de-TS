@@ -14,33 +14,54 @@ const { title } = Astro.props
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23your-color%22/></svg>">
+		<link rel="icon" href="/favicon.webp" type="image/webp">
 		<meta name="generator" content={Astro.generator} />
 		<ClientRouter />
 		<title>{title}</title>
 	</head>
 	<body class="min-h-screen flex flex-col text-white relative">
-	
-		<div id="loading" class="fixed inset-0 bg-dark flex items-center justify-center z-50 opacity-100 transition-opacity duration-700">
-			<img src={logoNoBG.src} alt="Logo de TS" class="w-16 h-16 object-contain animate-bounce" />
+
+		<div id="loading" class="fixed inset-0 w-screen h-screen bg-black flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500 z-50">
+			<img src={logoNoBG.src} alt="Logo de TS" class="w-24 h-24 object-contain animate-bounce" />
 		</div>
 
 		<Header />
-		<main id="main-content" class="flex-1 pt-20 bg-dark opacity-0 transition-opacity duration-700">
+		<main id="main-content" class="flex-1 pt-20 bg-dark opacity-0 transition-opacity duration-500">
 			<slot />
 		</main>
 		<Footer />
 
 		<script>
-			window.addEventListener('DOMContentLoaded', () => {
-			const loader = document.getElementById('loading') as HTMLDivElement
-			const main = document.getElementById('main-content') as HTMLMainElement
+			(() => {
+				const loader = document.getElementById('loading') as HTMLDivElement
+				const main = document.getElementById('main-content') as HTMLElement
 
-			loader.style.opacity = '0';
-			main.style.opacity = '1';
+				const MIN_SHOW_TIME = 200
+				const start = performance.now()
 
-			setTimeout(() => loader.remove(), 700)
-			})
+				const fadeOutLoader = () => {
+					const elapsed = performance.now() - start
+					const delay = Math.max(0, MIN_SHOW_TIME - elapsed)
+
+					setTimeout(() => {
+						loader?.classList.remove('opacity-100', 'pointer-events-auto')
+						loader?.classList.add('opacity-0', 'pointer-events-none')
+						main?.classList.add('opacity-100');
+
+						setTimeout(() => loader?.remove(), 500)
+					}, delay)
+				};
+
+				setTimeout(() => {
+					loader?.classList.add('opacity-100', 'pointer-events-auto')
+				}, 50)
+
+				if (document.readyState === 'complete' || document.readyState === 'interactive') {
+					fadeOutLoader()
+				} else {
+					window.addEventListener('DOMContentLoaded', fadeOutLoader)
+				}
+			})()
 		</script>
 	</body>
 </html>
