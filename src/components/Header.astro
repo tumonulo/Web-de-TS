@@ -27,14 +27,14 @@ import type { Route } from '@/types/routes.ts'
             </li>
 
             <li class="relative group pb-1">
-            <button type="button" class="relative flex items-center gap-2 px-1 py-1">
+            <a href={routes.applications.path} class="relative flex items-center gap-2 px-1 py-1">
                 <span class="relative flex items-center gap-2 underline-offset-4 decoration-light-blue">    
                 <ChevronRight class="w-6 h-6 shrink-0 transform transition-transform duration-200 group-hover:rotate-90" />
-                <span>Postulaciones</span>
+                <span>{routes.applications.name}</span>
 
                 <span class="absolute left-0 -bottom-0.5 h-0.5 bg-light-blue origin-left transform scale-x-0 transition-transform duration-200 group-hover:scale-x-100 w-full"></span>
                 </span>
-            </button>
+            </a>
 
             <ul
                 class="absolute top-full left-0 bg-darker border border-gray shadow-lg p-2 rounded-md 
@@ -43,7 +43,7 @@ import type { Route } from '@/types/routes.ts'
                     transition-all duration-200 ease-in-out origin-top
                     group-hover:opacity-100 group-hover:scale-y-100 group-hover:pointer-events-auto"
             >
-                {(routes.applications as Route[]).map((application: Route, index: number) => (
+                {(routes.applications.children as Route[]).map((application: Route, index: number) => (
                 <li class="px-2 py-1">
                     <a
                     href={application.path}
