@@ -8,7 +8,7 @@ import type { Route } from '@/types/routes.ts'
 
 <header class="fixed top-0 left-0 w-full h-20 p-4 bg-darker grid place-items-center shadow-md grid-cols-3 z-50">
     <a href="/">
-        <img src={LogoNoBG.src} alt="Logo TS" class="h-12 w-auto" />
+        <img src={LogoNoBG.src} alt="Logo TS" class="h-12 w-auto hover:scale-105 transition-transform duration-300" />
     </a>
 
     <nav>
@@ -66,7 +66,7 @@ import type { Route } from '@/types/routes.ts'
         href={(routes.discord as Route).path}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-3 px-5 py-2 bg-[#5865F2] text-white font-semibold rounded-full hover:bg-[#4752c4] hover:scale-105 transition-transform duration-300 shadow-lg"
+        class="flex items-center gap-3 px-5 py-2 bg-blue text-white font-semibold rounded-full hover:bg-dark-blue hover:scale-105 transition-transform duration-300 shadow-lg"
     >
         <img 
             src={discord.src} 

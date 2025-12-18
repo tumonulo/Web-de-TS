@@ -21,10 +21,10 @@ const application = applications.find(
 ---
 
 <Layout title={`Postulaciones a ${application.name} - TS Community`}>
-  <div class="max-w-4xl mx-auto py-12 px-6 text-white relative">
+  <div class="max-w-4xl mx-auto py-12 px-6 text-white relative" style={`background-color: ${application.color}`}>
 
   <div class="rounded-xl overflow-hidden shadow-xl border border-white/10 mb-12">
-    <div class="p-8" style={`background-color: ${application.color}`}>
+    <div class="p-8 bg-darker">
       <div class="flex items-center gap-4">
         <img 
           src={application.icon.url} 
@@ -106,7 +106,7 @@ const application = applications.find(
               <button
                 type="button"
                 id="openModalBtn"
-                class="px-10 py-3 rounded-lg font-semibold text-lg bg-blue"
+                class="px-10 py-3 rounded-lg font-semibold text-lg bg-blue hover:bg-dark-blue hover:scale-105 transition-transform duration-300"
               >
                 Enviar aplicación
               </button>

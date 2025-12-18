@@ -20,49 +20,11 @@ const { title } = Astro.props
 		<title>{title}</title>
 	</head>
 	<body class="min-h-screen flex flex-col text-white relative">
-
-		<div id="loading" class="fixed inset-0 w-screen h-screen bg-black flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500 z-50">
-			<img src={logoNoBG.src} alt="Logo de TS" class="w-24 h-24 object-contain animate-bounce" />
-		</div>
-
 		<Header />
 		<main id="main-content" class="flex-1 pt-20 bg-dark opacity-0 transition-opacity duration-500">
 			<slot />
 		</main>
 		<Footer />
-
-		<script>
-			(() => {
-				const loader = document.getElementById('loading') as HTMLDivElement
-				const main = document.getElementById('main-content') as HTMLElement
-
-				const MIN_SHOW_TIME = 200
-				const start = performance.now()
-
-				const fadeOutLoader = () => {
-					const elapsed = performance.now() - start
-					const delay = Math.max(0, MIN_SHOW_TIME - elapsed)
-
-					setTimeout(() => {
-						loader?.classList.remove('opacity-100', 'pointer-events-auto')
-						loader?.classList.add('opacity-0', 'pointer-events-none')
-						main?.classList.add('opacity-100');
-
-						setTimeout(() => loader?.remove(), 500)
-					}, delay)
-				};
-
-				setTimeout(() => {
-					loader?.classList.add('opacity-100', 'pointer-events-auto')
-				}, 50)
-
-				if (document.readyState === 'complete' || document.readyState === 'interactive') {
-					fadeOutLoader()
-				} else {
-					window.addEventListener('DOMContentLoaded', fadeOutLoader)
-				}
-			})()
-		</script>
 	</body>
 </html>
 
