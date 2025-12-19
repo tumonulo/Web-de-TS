@@ -51,7 +51,7 @@ import type { Route } from '@/types/routes.ts'
                     >
                     {application.name}
                     </a>
-                    {index < (routes.applications as Route[]).length - 1 && (
+                    {index < (routes.applications as Route).children?.length - 1 && (
                     <hr class="border-t border-gray my-1" />
                     )}
                 </li>

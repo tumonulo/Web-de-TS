@@ -5,5 +5,5 @@ export interface Route {
 }
 
 export interface Routes {
-  [key: string]: Route | Route[]
+  [key: string]: Route
 }
