@@ -25,7 +25,10 @@ const application = applications.find(
   <div class="w-full h-full" style={`background: ${application.color}`}>
     <div class="max-w-4xl mx-auto py-12 px-6 text-white">
 
-    <div class="rounded-xl overflow-hidden shadow-xl border border-white/10 mb-12">
+    <div 
+      class="rounded-xl overflow-hidden border border-white/10 mb-12"
+      style={`box-shadow: 0 12px 40px ${application.color}30, 0 6px 20px ${application.color}20;`}
+    >
       <div class="p-8 bg-darker">
         <div class="flex items-center gap-4">
           <img 
@@ -45,7 +48,10 @@ const application = applications.find(
 
       <form id="appForm" class="space-y-12">
         {application.sections.map((section, sIndex) => (
-          <section class="bg-darker border border-white/10 p-6 rounded-xl">
+          <section 
+            class="bg-darker border border-white/10 p-6 rounded-xl"
+            style={`box-shadow: 0 4px 16px ${application.color}15;`}
+          >
             <h2 class="text-xl font-semibold mb-6 flex items-center gap-3">
               <span class="w-8 h-8 bg-dark border border-white/10 rounded-lg flex items-center justify-center">
                 {sIndex + 1}
@@ -104,11 +110,27 @@ const application = applications.find(
               })}
             </div>
             {sIndex === application.sections.length - 1 && (
-              <div class="mt-8 flex justify-end">
+              <div class="mt-8 flex flex-col lg:flex-row items-stretch lg:items-end gap-6">
+                <!-- Google Forms Fallback -->
+                <div class="flex-1 bg-dark border border-white/10 rounded-lg p-4">
+                  <p class="text-sm opacity-70 mb-3">O completa el formulario de Google:</p>
+                  <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSeyoj46uMzH7qliXpifjIYQbdLoJKyrbGzR38eyZhOHk-Frrw/viewform?embedded=true"
+                    class="w-full h-[500px] rounded-lg border border-white/10"
+                    frameborder="0"
+                    marginheight="0"
+                    marginwidth="0"
+                  >
+                    Cargando…
+                  </iframe>
+                </div>
+
+                <!-- Submit Button -->
                 <button
                   type="button"
                   id="openModalBtn"
-                  class="px-10 py-3 rounded-lg font-semibold text-lg bg-blue hover:bg-dark-blue hover:scale-105 transition-transform duration-300 flex items-center gap-2"
+                  class="px-6 py-3 rounded-lg font-semibold text-lg bg-blue hover:bg-dark-blue hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 lg:self-end whitespace-nowrap"
+                  style={`box-shadow: 0 8px 24px ${application.color}40, 0 4px 12px ${application.color}20;`}
                 >
                   <Send class="w-5 h-5" />
                   Enviar Postulación
