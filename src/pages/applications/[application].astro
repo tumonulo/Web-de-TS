@@ -9,9 +9,7 @@ import { Send, CircleAlert } from 'lucide-astro'
 const { application: slug } = Astro.params
 
 export function getStaticPaths() {
-  return (routes.applications.children as Route[]).filter(
-    (app) => app.path !== '/applications/creators-program'
-  ).map(({ path }: Route) => ({
+  return (routes.applications.children as Route[]).map(({ path }: Route) => ({
     params: { application: path.replace('/applications/', '') }
   }))
 }
@@ -82,8 +80,7 @@ const application = applications.find(
                       <textarea
                         id={fieldId}
                         name={q.label}
-                        resize: none
-                        class="bg-darker border border-white/10 px-3 py-2 rounded-lg min-h-[120px] resize-y"
+                        class="bg-darker border border-white/10 px-3 py-2 resize-none rounded-lg min-h-[120px] resize-y"
                         placeholder="Tu respuesta"
                         data-required={q.required}
                       ></textarea>

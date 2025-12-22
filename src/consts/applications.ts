@@ -4,6 +4,7 @@ import staff from '@/assets/img/staff.webp'
 import dev from '@/assets/img/dev.webp'
 import designer from '@/assets/img/designer.png'
 import editor from '@/assets/img/editor.png'
+import creator from '@/assets/img/creator.png'
 
 export const staffApplication: Application = {
   id: "staff",
@@ -408,9 +409,132 @@ export const editorApplication: Application = {
   ]
 }
 
+export const creatorApplication: Application = {
+  id: "creators-program",
+  name: "Creators Program",
+  description: "Programa dirigido a creadores de contenido interesados en colaborar con la comunidad.",
+  color: "#a9f5a2",
+  banner: {
+    url: applicationsBanner.src,
+    alt: "Banner de postulaciones de TS"
+  },
+  icon: {
+    url: creator.src,
+    alt: "Icono de Creators Program"
+  },
+  sections: [
+    {
+      name: "Información de Usuario",
+      questions: [
+        {
+          label: "¿ID de usuario? ( Discord )",
+          aside:
+            'A continuación te dejamos adjuntado un <a href="https://support.discord.com/hc/es/articles/206346498--D%C3%B3nde-puedo-encontrar-mi-ID-de-usuario-servidor-mensaje" target="_blank" class="underline text-blue-400">enlace</a> donde puedes ver cómo obtener tu ID de Discord.',
+          type: "short",
+          required: true
+        },
+        {
+          label: "¿Edad?",
+          aside: "Procura proporcionar tu edad real.",
+          type: "short",
+          required: true
+        },
+        {
+          label: "¿Región?",
+          aside: "Europa, América, Asia, África, Oceanía o Antártida.",
+          type: "short",
+          required: true
+        }
+      ]
+    },
+    {
+      name: "Canales y Plataformas",
+      questions: [
+        {
+          label: "¿En qué plataformas creas contenido?",
+          type: "multiselect",
+          required: true,
+          options: [
+            "YouTube",
+            "Twitch",
+            "TikTok",
+            "Instagram",
+            "X (Twitter)",
+            "Otra"
+          ]
+        },
+        {
+          label: "Enlace(s) a tu(s) canal(es) o perfil(es)",
+          aside: "Puedes incluir varios enlaces separados por comas.",
+          type: "long",
+          required: true
+        },
+        {
+          label: "¿Qué tipo de contenido sueles crear?",
+          aside: "Gameplays, clips, directos, ediciones, tutoriales, etc.",
+          type: "long",
+          required: true
+        }
+      ]
+    },
+    {
+      name: "Actividad y Compromiso",
+      questions: [
+        {
+          label: "¿Con qué frecuencia publicas contenido?",
+          type: "select",
+          required: true,
+          options: [
+            "Diariamente",
+            "Varias veces por semana",
+            "Una vez por semana",
+            "Ocasionalmente"
+          ]
+        },
+        {
+          label: "¿Cuánto tiempo podrías dedicar al programa de creadores?",
+          aside: "Sé lo más realista posible.",
+          type: "long",
+          required: true
+        },
+        {
+          label: "¿Por qué deseas formar parte del Creators Program?",
+          type: "long",
+          required: true
+        }
+      ]
+    },
+    {
+      name: "Opinión Personal",
+      questions: [
+        {
+          label: "¿Qué crees que puede aportar tu contenido a TS Community Brawl?",
+          type: "long",
+          required: true
+        },
+        {
+          label: "¿Has participado anteriormente en programas de creadores?",
+          type: "select",
+          required: true,
+          options: [
+            "Sí",
+            "No"
+          ]
+        },
+        {
+          label: "Si tu respuesta fue sí, cuéntanos brevemente tu experiencia",
+          type: "long",
+          required: false
+        }
+      ]
+    }
+  ]
+}
+
 export default [
   staffApplication,
   devApplication,
   designerApplication,
-  editorApplication
+  editorApplication,
+  creatorApplication
 ]
