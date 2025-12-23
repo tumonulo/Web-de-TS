@@ -6,16 +6,16 @@ import applications from '@/consts/applications.ts'
 import type { Application } from '@/types/applications'
 import { Send, CircleAlert } from 'lucide-astro'
 
-const { id: slug } = Astro.params
+const { type } = Astro.params
 
 export function getStaticPaths() {
-  return (routes.applications.children as Route[]).map(({ path }: Route) => ({
-    params: { id: path.replace('/applications/', '') }
+  return applications.map(app => ({
+    params: { type: app.id, },
   }))
 }
 
-const application = applications.find(
-  a => a.id.toLowerCase() === id.toLowerCase()
+const application = applications.find(a =>
+  a.id === type
 ) as Application
 ---
 

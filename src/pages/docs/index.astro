@@ -1,10 +1,43 @@
 ---
-import Layout from '@/layouts/Layout.astro'
 import { getCollection } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
 
-const docs = await getCollection('docs')
+const docs = (await getCollection('docs')).sort((a, b) => a.data.title.localeCompare(b.data.title))
 ---
 
-<Layout title="Documentación">
+<Layout title="Documentación - TS Community">
+  <div class="min-h-screen bg-darker py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <header class="text-center mb-12">
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 text-white">📚 Documentación</h1>
+        <p class="text-xl md:text-2xl text-white/70">Encuentra toda la información sobre nuestro servidor</p>
+      </header>
 
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {docs.map((doc) => (
+          <a 
+            href={`/docs/${doc.slug}`} 
+            class="group bg-dark rounded-xl overflow-hidden border border-gray/20 hover:border-white/30 transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl"
+          >
+            {doc.data.image && (
+              <img 
+                src={doc.data.image} 
+                alt={doc.data.title} 
+                class="w-full h-48 object-cover"
+              />
+            )}
+            <div class="p-6">
+              <h2 class={`text-2xl font-semibold mb-2 transition-colors group-hover:text-${doc.data.color || 'blue'}`}>
+                {doc.data.title}
+              </h2>
+              <p class="text-white/70 leading-relaxed">{doc.data.description}</p>
+              {doc.data.author && (
+                <p class="text-sm text-white/50 mt-3">Por {doc.data.author}</p>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
 </Layout>

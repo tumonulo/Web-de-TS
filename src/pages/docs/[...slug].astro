@@ -1,22 +1,227 @@
 ---
-import { getCollection } from 'astro:content'
+import { getCollection, render } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs')
-
   return docs.map(doc => ({
-    params: { slug: doc.slug.split('/') },
-    props: { doc },
+    params: { slug: doc.slug },
+    props: { doc }
   }))
 }
 
 const { doc } = Astro.props
 const { Content } = await doc.render()
+
+const allDocs = (await getCollection('docs')).sort((a, b) => a.data.title.localeCompare(b.data.title))
+
+const accentColors = {
+  blue: 'bg-blue border-blue',
+  green: 'bg-green border-green',
+  pink: 'bg-pink border-pink',
+  red: 'bg-red border-red'
+}
+
+const accentColor = accentColors[doc.data.color] || accentColors.blue
 ---
 
-<article>
-  <h1>{doc.data.title}</h1>
-  <p>{doc.data.description}</p>
+<Layout title={doc.data.title}>
+  <div class="flex min-h-screen bg-darker">
+    <!-- Sidebar -->
+    <aside class="hidden lg:block w-64 bg-dark border-r border-gray/20 fixed h-screen overflow-y-auto">
+      <nav class="p-6">
+        <a 
+          href="/docs" 
+          class="flex items-center gap-2 mb-6 text-sm text-white/60 hover:text-white transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          Volver a Docs
+        </a>
+        <ul class="space-y-1">
+          {allDocs.map((d) => (
+            <li>
+              <a 
+                href={`/docs/${d.slug}`}
+                class={`block px-4 py-2.5 rounded-lg transition-all ${
+                  d.slug === doc.slug 
+                    ? `${accentColor} text-white font-semibold shadow-lg` 
+                    : 'text-white/70 hover:bg-dark-blue/20 hover:text-white'
+                }`}
+              >
+                {d.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
 
-  <Content />
-</article>
+    <!-- Content -->
+    <main class="flex-1 lg:ml-64">
+      <article class="max-w-4xl mx-auto px-6 py-12">
+        <!-- Mobile back button -->
+        <a 
+          href="/docs" 
+          class="lg:hidden flex items-center gap-2 mb-8 text-sm text-white/60 hover:text-white transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          Volver a Docs
+        </a>
+
+        {doc.data.image && (
+          <img 
+            src={doc.data.image} 
+            alt={doc.data.title}
+            class="w-full h-80 object-cover rounded-2xl mb-10 shadow-2xl"
+          />
+        )}
+        
+        <header class="mb-12">
+          <h1 class="text-5xl md:text-6xl font-bold mb-4 text-white">{doc.data.title}</h1>
+          <p class="text-xl md:text-2xl text-white/70 leading-relaxed">{doc.data.description}</p>
+          {doc.data.author && (
+            <p class="text-sm text-white/50 mt-4">Escrito por {doc.data.author}</p>
+          )}
+        </header>
+
+        <!-- Markdown Content -->
+        <div class="markdown-content" data-color={doc.data.color}>
+          <Content />
+        </div>
+      </article>
+    </main>
+  </div>
+</Layout>
+
+<style is:global>
+  .markdown-content {
+    @apply text-white/90 leading-relaxed;
+  }
+
+  /* Headings */
+  .markdown-content h1 {
+    @apply text-4xl font-bold mt-12 mb-6 text-white;
+  }
+  
+  .markdown-content h2 {
+    @apply text-3xl font-bold mt-10 mb-4 text-white pb-3;
+  }
+  
+  .markdown-content[data-color="blue"] h2 {
+    @apply border-b border-blue/30;
+  }
+  
+  .markdown-content[data-color="green"] h2 {
+    @apply border-b border-green/30;
+  }
+  
+  .markdown-content[data-color="pink"] h2 {
+    @apply border-b border-pink/30;
+  }
+  
+  .markdown-content[data-color="red"] h2 {
+    @apply border-b border-red/30;
+  }
+  
+  .markdown-content h3 {
+    @apply text-2xl font-semibold mt-8 mb-3 text-light-blue;
+  }
+  
+  .markdown-content h4 {
+    @apply text-xl font-semibold mt-6 mb-2 text-white/90;
+  }
+
+  /* Paragraphs */
+  .markdown-content p {
+    @apply mb-6 text-lg leading-relaxed;
+  }
+
+  /* Lists */
+  .markdown-content ul {
+    @apply list-disc list-inside mb-6 space-y-2 ml-4;
+  }
+  
+  .markdown-content ol {
+    @apply list-decimal list-inside mb-6 space-y-2 ml-4;
+  }
+  
+  .markdown-content li {
+    @apply text-lg leading-relaxed;
+  }
+
+  /* Code */
+  .markdown-content code {
+    @apply bg-dark px-2 py-1 rounded text-light-blue text-sm font-mono;
+  }
+  
+  .markdown-content pre {
+    @apply bg-dark p-6 rounded-xl overflow-x-auto mb-6 border border-gray/20 shadow-lg;
+  }
+  
+  .markdown-content pre code {
+    @apply bg-transparent p-0 text-base;
+  }
+
+  /* Links */
+  .markdown-content a {
+    @apply text-blue hover:text-light-blue underline decoration-blue/50 hover:decoration-light-blue transition-colors;
+  }
+
+  /* Blockquotes */
+  .markdown-content blockquote {
+    @apply border-l-4 pl-6 py-4 my-6 italic text-white/80 rounded-r-lg;
+  }
+  
+  .markdown-content[data-color="blue"] blockquote {
+    @apply border-blue bg-dark-blue/10;
+  }
+  
+  .markdown-content[data-color="green"] blockquote {
+    @apply border-green bg-green/10;
+  }
+  
+  .markdown-content[data-color="pink"] blockquote {
+    @apply border-pink bg-pink/10;
+  }
+  
+  .markdown-content[data-color="red"] blockquote {
+    @apply border-red bg-red/10;
+  }
+
+  /* Images */
+  .markdown-content img {
+    @apply rounded-xl my-8 shadow-2xl;
+  }
+
+  /* Horizontal Rule */
+  .markdown-content hr {
+    @apply border-gray/30 my-10;
+  }
+
+  /* Tables */
+  .markdown-content table {
+    @apply w-full my-6 border-collapse;
+  }
+  
+  .markdown-content th {
+    @apply bg-dark-blue text-white font-semibold p-3 text-left border border-gray/20;
+  }
+  
+  .markdown-content td {
+    @apply bg-dark/50 p-3 border border-gray/20;
+  }
+
+  /* Strong/Bold */
+  .markdown-content strong {
+    @apply text-white font-bold;
+  }
+
+  /* Emphasis/Italic */
+  .markdown-content em {
+    @apply text-light-blue italic;
+  }
+</style>
